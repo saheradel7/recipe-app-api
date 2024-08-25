@@ -4,19 +4,20 @@ from django.contrib.auth import (
 )
 from django.utils.translation import gettext as _
 from rest_framework import serializers
-from django.utils.translation import gettext as _
 
-class UserSerializer (serializers.ModelSerializer):
-    
+
+class UserSerializer(serializers.ModelSerializer):
+    """Serializer for the user object."""
+
     class Meta:
         model = get_user_model()
         fields = ['email', 'password', 'name']
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
-    
-    
+
     def create(self, validated_data):
+        """Create and return a new user."""
         return get_user_model().objects.create_user(**validated_data)
-    
+
     def update(self, instance, validated_data):
         """Update and return user."""
         password = validated_data.pop('password', None)
@@ -27,7 +28,8 @@ class UserSerializer (serializers.ModelSerializer):
             user.save()
 
         return user
-    
+
+
 class AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user auth token."""
     email = serializers.EmailField()
