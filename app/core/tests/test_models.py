@@ -3,40 +3,36 @@ from django.contrib.auth import get_user_model
 
 
 class TestUserModel(TestCase):
-    
     def test_create_user(self):
         email = "test_user@example.com"
         password = "test_user_pass123"
-        
+
         user = get_user_model().objects.create_user(
-            email = email,
-            password = password
+            email=email, password=password
         )
-        
-        self.assertEqual(user.email , email)
+
+        self.assertEqual(user.email, email)
         self.assertTrue(user.check_password(password))
-        
+
     def test_new_user_email_normalized(self):
-        emails ={
-            "test1@EXAMPLE.com":"test1@example.com",
-            "Test2@Example.com":"Test2@example.com",
-            "TEST3@EXAMPLE.COM":"TEST3@example.com",
-            "test4@example.COM":"test4@example.com",
+        emails = {
+            "test1@EXAMPLE.com": "test1@example.com",
+            "Test2@Example.com": "Test2@example.com",
+            "TEST3@EXAMPLE.COM": "TEST3@example.com",
+            "test4@example.COM": "test4@example.com",
         }
-        for email , expected in emails.items():
-            user  = get_user_model().objects.create_user(email, "test123")
-            self.assertEqual(user.email , expected)
-    
+        for email, expected in emails.items():
+            user = get_user_model().objects.create_user(email, "test123")
+            self.assertEqual(user.email, expected)
+
     def test_create_user_without_email_raises_error(self):
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user('', "test123")
-        
-    
+            get_user_model().objects.create_user("", "test123")
+
     def test_if_user_is_admin(self):
         user = get_user_model().objects.create_superuser(
-            email = "example@example.com",
+            email="example@example.com",
             password="test123",
         )
         self.assertTrue(user.is_staff)
         self.assertTrue(user.is_superuser)
-        

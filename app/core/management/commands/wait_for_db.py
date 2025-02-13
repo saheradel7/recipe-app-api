@@ -12,8 +12,8 @@ class Command(BaseCommand):
             try:
                 self.check(databases=["default"])
                 db_up = True
-            except(OperationalError, psycopg2Error):
-                self.stdout.write('Database unavailable, waiting 1 second...')
+            except (OperationalError, psycopg2Error):
+                self.stdout.write("Database unavailable, waiting 1 second...")
                 time.sleep(1)
 
-        self.stdout.write(self.style.SUCCESS('Database available!'))
+        self.stdout.write(self.style.SUCCESS("Database available!"))
