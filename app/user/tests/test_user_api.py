@@ -62,7 +62,7 @@ class PublicUserAPITest(TestCase):
         create_test_user(**user_details)
         payload = {
             "email": user_details["email"],
-            "password": user_details["password"]
+            "password": user_details["password"],
         }
         res = self.client.post(TOKEN_URL, payload)
 
@@ -114,11 +114,7 @@ class PrivateUserAPiTest(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(
-            res.data,
-            {
-                "name": self.user.name,
-                "email": self.user.email
-            }
+            res.data, {"name": self.user.name, "email": self.user.email}
         )
 
     def test_post_me_not_allowed(self):
